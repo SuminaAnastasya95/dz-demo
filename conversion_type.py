@@ -17,6 +17,8 @@ x = str(1)
 y = str(1.5)
 z = str('5.5')
 print(z)
+user_data_string = 'Anastasya ' + x
+print(user_data_string)
 
 #Тип Boolean
 x = bool(1) #Любая строка True - кроме пустых (False), любое число True - кроме 0 (False)

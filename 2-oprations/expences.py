@@ -4,7 +4,7 @@ sales = input("Введите скидку товара: ")
 goodsInt= int(goods)
 salesInt = int(sales)
 
-print("Итоговая цена товара: ", (goodsInt - (goodsInt * salesInt)/ 100))
+print("Итоговая цена товара: ", goodsInt - (goodsInt * salesInt / 100))
 
 # цена - %
 # 15   - 100 %

@@ -8,10 +8,10 @@
 
 category = input("Выберете категорию: 1-Напиток, 2-Суп, 3.Десерт: ")
 
-match category:
+match category: # type: ignore
     case "1":
         drink = input("Что выбираете? Выберите цифру: 1-чай, 2-кофе, 3-сок: ")
-        match drink:
+        match drink: # type: ignore
             case "1":
                 print("Цена чая - 10р")
             case "2":
@@ -20,7 +20,7 @@ match category:
                 print("Цена сок - 100р")
     case "2":
         soup = input("Что выбираете? Выберите цифру: 1-борщ, 2-щи, 3-суп-пюре: ")
-        match soup:
+        match soup: # type: ignore
             case "1":
                 print("Цена борща - 10р")
             case "2":
@@ -29,7 +29,7 @@ match category:
                 print("Цена суп-пюре - 100р")
     case "3":
         dessert = input("Что выбираете? Выберите цифру: 1-торт, 2-мороженое, 3-фрукты: ")
-        match dessert:
+        match dessert: # type: ignore
             case "1":
                 print("Цена торта - 10р")
             case "2":

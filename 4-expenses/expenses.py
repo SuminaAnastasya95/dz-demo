@@ -2,5 +2,5 @@
 # Посчитать сумму, среднее, минимум и максимум.
 # Сохранить в кортеже (минимум, максимум, сумма) и вывести его.
 expen = [1, 2, 3, 4, 5, 6, 7]
-tuples = min(expen), max(expen), sum(expen), sum(expen)/7
+tuples = min(expen), max(expen), sum(expen), sum(expen)/len(expen)
 print(tuples)

@@ -12,3 +12,6 @@ print(l[len(l) - 1]) #Из длины массива вычесть 1 чтобы
 
 k = []
 print(k) # type: ignore
+
+
+

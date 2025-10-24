@@ -2,5 +2,7 @@
 # Посчитать сумму, среднее, минимум и максимум.
 # Сохранить в кортеже (минимум, максимум, сумма) и вывести его.
 expen = [1, 2, 3, 4, 5, 6, 7]
-tuples = min(expen), max(expen), sum(expen), sum(expen)/len(expen)
-print(tuples)
+tuples = min(expen), max(expen), sum(expen)
+middle =  sum(expen)/len(expen)
+print("Траты за неделю: Минимум: ",tuples[0], "Максимальное: ", tuples[1], "Сумма: ", tuples[2])
+print("Среднее значение: ", middle)

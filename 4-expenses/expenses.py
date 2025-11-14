@@ -13,7 +13,7 @@ input_text = input("Введите сумму: (пример: 100 руб 10 ко
 normal_text =  " ".join(input_text.split()).lower()
 splits= normal_text.split(" ")
 
-if len(splits) < 1 or not int(splits[0]):
+if len(splits) < 1 or not splits[0].isnumeric():
     print("Некорректный формат суммы, отсутствует целая часть")
     exit()
 if len(splits) < 2 or splits[1] != "руб":
@@ -22,7 +22,7 @@ if len(splits) < 2 or splits[1] != "руб":
 if len(splits) == 2:
     print(f"{splits[0]}.00 ₽")
     exit()
-if len(splits) < 3 or not int(splits[2]):
+if len(splits) < 3 or not splits[2].isnumeric():
     print("Некорректный формат суммы, отсутствует копейки часть")
     exit()
 if len(splits) < 4 or splits[3] != "коп":

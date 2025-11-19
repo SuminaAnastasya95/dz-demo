@@ -7,6 +7,37 @@
 from typing import List
 
 
+def choise_func(expenses_lists: List[str] = []):
+    while True:
+        print(("Выберите номер меню: \n"
+               "1. Добавить расход\n"
+               "2. Удалить расход по номеру\n"
+               "3. Показать сумму расходов\n"
+               "4. Показать среднюю сумму расходов\n"
+               "5. Отчет\n"
+               "0. Выход\n"))
+        user_choice = input("-> ")
+        int_user_choice = int(user_choice)
+        if int_user_choice == 0:
+            print("Выход из приложения. До свидания!")
+            break
+        elif int_user_choice == 1:
+            add_expense(expenses_lists, money())
+        elif int_user_choice == 2:
+            index = str(
+                input(f"Какой элемент удалить? Список состоит из - {expenses_lists} "))
+            delete_expence(expenses_lists, index)
+        elif int_user_choice == 3:
+            f_get_total = get_total(expenses_lists)
+            print(f"Сумма расходов составляет - {f_get_total:.2f} руб.")
+        elif int_user_choice == 4:
+            f_get_average = get_average(expenses_lists)
+            print(
+                f"Средняя сумма расходов составляет - {f_get_average:.2f} руб.")
+        elif int_user_choice == 5:
+            print_report(expenses_lists)
+
+
 def money() -> str:
     input_text = input("Какую сумму вы потратили: (пример: 100 руб 10 коп) ")
     normal_text = " ".join(input_text.split()).lower()
@@ -35,28 +66,19 @@ def add_expense(expenses_lists: List[str], total_money: str):
     expenses_lists.append(total_money)
 
 
-expenses: List[str] = ['15.00', '10.00', '100.00']
-add_expense(expenses, money())
-print(f"✅Список состоит из элементов - {expenses}")
-
-
 def delete_expence(expenses_lists: List[str], delete_element: str):
     """удалить расход"""
-    delete_element = str(
-        input(f"Какой элемент удалить? Список состоит из - {expenses} "))
-    if not delete_element.count("."):
+    if not expenses_lists:
+        print("⚠️Список пустой, добавьте затраты через п.1")
+    elif not delete_element.count("."):
         result_element = delete_element + ".00"
-        index_list = expenses.index(result_element)
-        expenses.pop(index_list)
-    elif delete_element.count(delete_element):
-        index_list = expenses.index(delete_element)
-        expenses.pop(index_list)
+        index_list = expenses_lists.index(result_element)
+        expenses_lists.pop(index_list)
+    elif expenses_lists.count(delete_element):
+        index_list = expenses_lists.index(delete_element)
+        expenses_lists.pop(index_list)
     else:
         print("⚠️ Элемент не найден")
-
-
-delete_expence(expenses, "10")
-print(f"✅ После удаления список выглядит так - {expenses}")
 
 
 def get_total(result_sum: List[str]) -> float:
@@ -68,27 +90,28 @@ def get_total(result_sum: List[str]) -> float:
     return total_sum
 
 
-total_sum = get_total(expenses)
-print(f"✅ Сумма все расходов - {total_sum}")
-
-
-def get_average(total_sum: float, expenses_lists: List[str]) -> float:
+def get_average(expenses_lists: List[str]):
     """возвращает средний расход"""
-    return round(total_sum / len(expenses_lists), 2)
+    if not expenses_lists:
+        return 00.00
+    else:
+        total_sum = 0
+        for i in expenses_lists:
+            i_float = float(i)
+            total_sum += i_float
+        total_avg = round(total_sum / len(expenses_lists), 2)
+        return total_avg
 
 
-total_advg = get_average(total_sum, expenses)
-print(f"✅ Среднее значение затрат - {total_advg}")
-
-
-def print_report(expenses_lists: List[str], get_sum: float, get_avg: float):
+def print_report(expenses_lists: List[str]):
+    total_sum = get_total(expenses_lists)
+    total_avg = get_average(expenses_lists)
+    print("===ОТЧЕТ РАСХОДОВ===")
     print(f"Список состоит из элементов - {expenses_lists}\n")
     print(f"После удаления список выглядит так - {expenses_lists}\n")
-    print(f"Сумма все расходов - {get_sum}\n")
-    print(f"Сумма все расходов - {get_avg}\n")
+    print(f"Сумма все расходов - {total_sum:.2f} руб.\n")
+    print(f"Сумма все расходов - {total_avg:.2f} руб.\n")
+    print("===КОНЕЦ===\n")
 
 
-# report = print_report(expenses, get_sum=total_sum, get_avg=total_advg)
-print("===ОТЧЕТ РАСХОДОВ===")
-print_report(expenses, get_sum=total_sum, get_avg=total_advg)
-print("===КОНЕЦ===")
+choise_func()

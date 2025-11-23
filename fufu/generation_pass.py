@@ -30,7 +30,7 @@ passwords = {}
 # {"purpleshcool.ru":"1234"}
 
 
-def menu(passwords: dict):
+def menu(passwords: dict[str, str] = {}):
     while True:
         print("1. Показать пароль\n"
               "2. Добавить пароль\n"
@@ -54,20 +54,24 @@ def menu(passwords: dict):
             update_password(passwords)
 
 
-def show_pass(password):
-    print(password)
+def show_pass(password: dict[str, str]):
+    print("Key".ljust(10), "|" "Value")
+    print("-"*20)
+    for domen, value in password.items():
+        print(domen.ljust(10), "|", value)
 
 
-def add_pass(password):
+def add_pass(password: dict[str, str]):
     print("Какой домен?")
     domen = input("->")
     password[domen] = generation_pass()
     print(password)
 
 
-def delete_passwords(password):
+def delete_passwords(password: dict[str, str]):
     print(password)
-    user_select = input("Какой элемент удалить? Введите в формате ключа:  ")
+    user_select = input(
+        "Какой элемент удалить? Введите в формате ключа:  ")
     if not user_select in password:
         print("Такого домена нет в спике!")
     else:
@@ -75,7 +79,7 @@ def delete_passwords(password):
         print(password)
 
 
-def update_password(password):
+def update_password(password: dict[str, str]):
     update_domene = input("У какого домена хотите обновить пароль? ")
     if not update_domene in password:
         print("Такого домена нет в спике!")
@@ -85,4 +89,4 @@ def update_password(password):
         print(password)
 
 
-menu(passwords)
+menu()

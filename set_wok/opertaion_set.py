@@ -24,3 +24,28 @@ print(86 in s)
 
 for el in s:
     print(el)
+
+
+a = {1, 2}
+b = {1, 2, 3}
+# Проверка является ли множество a частью b
+print(a.issubset(b))  # True
+print(b.issubset(a))  # False
+
+
+a = {1, 2}
+b = {1, 2, 3}
+c = {3, 1, 2}
+# Проверка является ли множество b частью a. Т.е. тоже самое что и .issubset() только работает наоборот
+print(a.issuperset(b))  # False
+print(b.issuperset(a))  # True
+
+print(c == b)  # True
+print(c != b)  # False
+
+
+a.clear()
+print(a)
+
+d = b.copy()
+print(d == b)

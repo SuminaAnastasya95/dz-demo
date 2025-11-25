@@ -23,3 +23,15 @@ print(set_day2 - set_day1)
 
 print("Кто посетил только один раз: ")
 print(set_day1 ^ set_day2)
+
+
+# 1. Проверить, что у пользователя есть все обязательные документы
+# 2. Равны л наборы документов?
+# 3. Вывести список лишних документов, которые пользователь добавил
+
+required_docs = frozenset(["паспорт", "ИНН", "СНИЛС"])
+user_docs = {"паспорт", "ИНН", "СНИЛС", "диплом"}
+
+print(required_docs.issubset(user_docs))
+print(required_docs == frozenset(user_docs))
+print(user_docs - required_docs)

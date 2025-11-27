@@ -23,3 +23,4 @@ def calculate(number_1: float, number_2: float, options: Literal["+", "-", "/", 
 
 print(calculate(10, 4, "/"))
 # print(calculate(10, 0, "1"))
+

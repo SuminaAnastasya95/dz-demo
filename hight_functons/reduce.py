@@ -17,9 +17,12 @@ print(total)
 word = ["Hi", "how", "are", "you"]
 sentence = reduce(lambda a, b: a + " " + b, word)
 print(sentence)
-
+# a - текущий элемент
+# b - следкющий элемент
 
 # Что такое a и b в функции reduce
+
+
 def sum_custom(acc: int, next_el: int):
     return acc + next_el
 

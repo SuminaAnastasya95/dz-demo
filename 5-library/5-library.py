@@ -1,47 +1,50 @@
 import sys
 
-# Если action == "filter" - С помощью filter выбери книги переданные в sys.argv[2]. С помощью map выведи список строк "Книга — Автор".
-
-# Если action == "sort" - С помощью map подготовь список строк "Книга — Автор". Отсортируй список по алфавиту в зависимости от author или book.
-
-
 books = {
     "История одиночества": "Джон Бойн",
     "Мальчик в полосатой пижаме": "Джон Бойн",
     "Гордость и предубеждение": "Джейн Остин",
     "Оно": "Стивен Кинг"
 }
-if sys.argv[1] == "filter":
-    requested = sys.argv[2:]
-    filter_book = filter(lambda title: title in books, requested)
-    # print(list(filter_book))
-    result = list(map(lambda title: f"{title} - {books[title]}", filter_book))
-    # print(result)
+
+if len(sys.argv) < 2:
+    print("Ошибка: не указан action (filter или sort)")
+    sys.exit(1)
+
+action = sys.argv[1]
+
+if action == "filter":
+    requested = sys.argv[2:]  # безопасно: срез не вызывает IndexError
+    filtered = filter(lambda title: title in books, requested)
+    result = map(lambda title: f"{title} — {books[title]}", filtered)
     for line in result:
         print(line)
-elif sys.argv[1] == "sort":
-    sort_by = sys.argv[2]  # "book" или "author"
 
-    # Шаг 1: с помощью map создаём список строк "Книга — Автор"
-    items = list(map(lambda title: (title, books[title]), books.keys()))
-    lines = list(map(lambda pair: f"{pair[0]} — {pair[1]}", items))
+elif action == "sort":
+    if len(sys.argv) < 3:
+        print("Ошибка: для sort требуется указать 'book' или 'author'")
+        sys.exit(1)
 
-    # Но для сортировки удобнее сначала отсортировать пары (книга, автор),
-    # а потом применить map — так мы сможем сортировать по нужному полю
-
-    # Пересоздадим: работаем с парами (title, author)
-    book_author_pairs = list(books.items())  # [('Книга', 'Автор'), ...]
+    sort_by = sys.argv[2]
 
     if sort_by == "book":
-        sorted_pairs = sorted(book_author_pairs, key=lambda x: x[0].lower())
+        def key_func(pair): return pair[0].lower()
     elif sort_by == "author":
-        sorted_pairs = sorted(book_author_pairs, key=lambda x: x[1].lower())
+        def key_func(pair): return pair[1].lower()
     else:
-        raise ValueError("sort_by должен быть 'book' или 'author'")
+        print("Ошибка: sort_by должен быть 'book' или 'author'")
+        sys.exit(1)
 
-    # Теперь map для формирования строк
+    # Получаем отсортированные пары (книга, автор)
+    sorted_pairs = sorted(books.items(), key=key_func)
+
+    # Формируем строки с помощью map
     result = map(lambda pair: f"{pair[0]} — {pair[1]}", sorted_pairs)
 
-    # Выводим
     for line in result:
         print(line)
+
+else:
+    print(
+        f"Ошибка: неизвестный action '{action}'. Используйте 'filter' или 'sort'")
+    sys.exit(1)

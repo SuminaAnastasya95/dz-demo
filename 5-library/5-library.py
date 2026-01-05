@@ -32,23 +32,24 @@ books = {
 }
 try:
     if len(sys.argv) < 2:
-        raise MissingActionError(f"Передан кривой параметр сортировки")
-        # print("Ошибка: не указан action (filter или sort)")
-        # sys.exit(1)
+        raise MissingActionError(
+            "Не указана команда (ожидается 'filter' или 'sort')")
 
     action = sys.argv[1]
 
     if action == "filter":
-        if len(sys.argv) < 2:
-            raise MissingFilterArgsError()
+        if len(sys.argv) < 3:
+            raise MissingFilterArgsError(
+                "Не переданы названия книг для фильтрации")
 
         requested = sys.argv[2:]  # безопасно: срез не вызывает IndexError
-        filtered = filter(lambda title: title in books, requested)
-        filter_list = list(filtered)
-        if not filter_list:
+        valid_title = [title for title in requested if title in books]
+
+        if not valid_title:
             raise MissingFilterArgsError(
                 "Ни одна из указанных книг не найдена")
-        result = map(lambda title: f"{title} — {books[title]}", filtered)
+
+        result = map(lambda title: f"{title} — {books[title]}", valid_title)
         for line in result:
             print(line)
 
@@ -65,7 +66,7 @@ try:
             def key_func(pair): return pair[1].lower()
         else:
             raise InvalidSortParamError(
-                "Ошибка: sort_by должен быть 'book' или 'author'")
+                f"Недопустимый параметр сортировки: '{sort_by}'. Допустимые значения: 'book', 'author'")
 
         # Получаем отсортированные пары (книга, автор)
         sorted_pairs = sorted(books.items(), key=key_func)
@@ -80,12 +81,18 @@ try:
         raise MissingActionError(
             f"Ошибка: неизвестный action '{action}'. Используйте 'filter' или 'sort'")
 
-except MissingActionError:
-    print("Ошибка не указано действие(filter или sort)", file=sys.stderr)
+except MissingActionError as e:
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
     sys.exit(1)
+
 except UnknownActionError as e:
-    print(f"Ошибка - {e}", file=sys.stderr)
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
     sys.exit(1)
+
 except InvalidSortParamError as e:
-    print(f"Ошибка - {e}", file=sys.stderr)
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
+    sys.exit(1)
+
+except MissingFilterArgsError as e:
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
     sys.exit(1)

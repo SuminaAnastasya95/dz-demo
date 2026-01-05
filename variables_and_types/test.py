@@ -11,12 +11,16 @@
 def get_type_name(value):
     return type(value).__name__
 
-#Как задается функция
+# Как задается функция
 # def get_type_name(value):
 #     # Ваш код здесь
 #     return # Вернуть название типа
 
 # Атрибут __name__ возвращает имя класса в виде строки.
 # print(type(42).__name__)      # "int"
-# print(type(3.14).__name__)    # "float" 
+# print(type(3.14).__name__)    # "float"
 # print(type("hello").__name__) # "str"
+
+
+lists = list(map(lambda x: x*2, [1, 2, 3]))
+print(lists)

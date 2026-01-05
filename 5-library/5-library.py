@@ -1,10 +1,98 @@
-books = {"История одиночества": "Джон Бойн",
-         "Мальчик в полосатой пижаме": "Джон Бойн",
-         "Гордость и предупреждение": "Джейн Остин",
-         "Оно": "Стивин Кинг"}
+import sys
 
-print(f"Список авторов: ", set(books.values()))
-names_book = []
-for key in books.keys():
-    names_book.append(key)
-print(f"Список книг: ", names_book)
+
+# === 1. Объявляем базовый класс ошибки ===
+class CLIError(Exception):
+    """Базовый класс для всех ошибок командной строки."""
+    pass
+
+
+# === 2. Расшираем его специфичными ошибками ===
+class MissingActionError(CLIError):
+    pass
+
+
+class UnknownActionError(CLIError):
+    pass
+
+
+class InvalidSortParamError(CLIError):
+    pass
+
+
+class MissingFilterArgsError(CLIError):
+    pass
+
+
+books = {
+    "История одиночества": "Джон Бойн",
+    "Мальчик в полосатой пижаме": "Джон Бойн",
+    "Гордость и предубеждение": "Джейн Остин",
+    "Оно": "Стивен Кинг"
+}
+try:
+    if len(sys.argv) < 2:
+        raise MissingActionError(
+            "Не указана команда (ожидается 'filter' или 'sort')")
+
+    action = sys.argv[1]
+
+    if action == "filter":
+        if len(sys.argv) < 3:
+            raise MissingFilterArgsError(
+                "Не переданы названия книг для фильтрации")
+
+        requested = sys.argv[2:]  # безопасно: срез не вызывает IndexError
+        valid_title = [title for title in requested if title in books]
+
+        if not valid_title:
+            raise MissingFilterArgsError(
+                "Ни одна из указанных книг не найдена")
+
+        result = map(lambda title: f"{title} — {books[title]}", valid_title)
+        for line in result:
+            print(line)
+
+    elif action == "sort":
+        if len(sys.argv) < 3:
+            raise InvalidSortParamError(
+                "Ошибка: для sort требуется указать 'book' или 'author'")
+
+        sort_by = sys.argv[2]
+
+        if sort_by == "book":
+            def key_func(pair): return pair[0].lower()
+        elif sort_by == "author":
+            def key_func(pair): return pair[1].lower()
+        else:
+            raise InvalidSortParamError(
+                f"Недопустимый параметр сортировки: '{sort_by}'. Допустимые значения: 'book', 'author'")
+
+        # Получаем отсортированные пары (книга, автор)
+        sorted_pairs = sorted(books.items(), key=key_func)
+
+        # Формируем строки с помощью map
+        result = map(lambda pair: f"{pair[0]} — {pair[1]}", sorted_pairs)
+
+        for line in result:
+            print(line)
+
+    else:
+        raise MissingActionError(
+            f"Ошибка: неизвестный action '{action}'. Используйте 'filter' или 'sort'")
+
+except MissingActionError as e:
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
+    sys.exit(1)
+
+except UnknownActionError as e:
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
+    sys.exit(1)
+
+except InvalidSortParamError as e:
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
+    sys.exit(1)
+
+except MissingFilterArgsError as e:
+    print(f"❌ Ошибка: {e}", file=sys.stderr)
+    sys.exit(1)

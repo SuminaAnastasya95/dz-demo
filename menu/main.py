@@ -1,16 +1,17 @@
+from shlex import split
 from command.help_menu import help_commands
-from command.tasks import make_task
-import datetime
-
-print(__name__)
+from tasks.tasks import make_task, Tasks
+from command.add import add_command
 
 
 def main():
+    tasks: list[Tasks] = []
+    next_id = 1
     print("Таск менеджер. help - для справки")
     while True:
         try:
             raw = input(">").strip()
-            parts = raw.split()
+            parts = split(raw)
             cmd, args = parts[0], parts[1:]
             match cmd:
                 case "help":
@@ -20,7 +21,7 @@ def main():
                 case "list":
                     pass
                 case "add":
-                    pass
+                    next_id = add_command(tasks, args, next_id)
                 case "remove":
                     pass
                 case "edit":
@@ -40,17 +41,14 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    now = datetime.datetime.now()
-    print(now)
-    today = datetime.date.today()
-    print(today)
-    current_time = now.time()
-    print(current_time)
-
-    d = datetime.date(2025, 9, 17)
-    print(d.weekday())
-    print(d)
-    t = datetime.time(19, 0, 45)
-    print(t)
-    dt = datetime.datetime(2025, 9, 17, 19, 0, 45)
-    print(dt)
+    # r - чтение
+    # w - запись
+    # a - добавить
+    # x - сщздание нового файла
+    # b - бинарный файл
+    # t - текстовый
+    # + - открыть для чтения/ записи
+    f = open("notes.txt", 'a', encoding='utf-8')
+    f.write('Первая строка\n')
+    f.write('Вторая строка\n')
+    f.close()

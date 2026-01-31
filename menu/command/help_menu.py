@@ -2,14 +2,14 @@ def help_commands(kind_help):
     try:
         if kind_help == "add":
             print("Осуществляется добавление таски в формате:\n"
-                  "< title > priority=low | med | high [YYYY-MM-DD] [tags=a, b, c] - Добавить")
+                  "< title > priority=low | med | high [due=YYYY-MM-DD] [tags=a, b, c] - Добавить")
         elif kind_help == "list":
             print("Отображается список всех задач")
         elif kind_help == "remove":
             print("Осуществляется удаление\n<id> - Удалить")
         elif kind_help == "edit":
             print(
-                "Осуществляется изменение\n<id> [title=...] [priority=...] due=[YYYY-MM-DD] - Изменить")
+                "Осуществляется изменение\n<id> [title=...] [priority=...] [due=YYYY-MM-DD] - Изменить")
         elif kind_help == "tags":
             print(
                 "Осуществляется добавление тега\n<id> add|remove <tag> - Добавление тега")

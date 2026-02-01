@@ -1,2 +1,2 @@
-d = {"a": 1, "b": 2}
-print(set([1, 2, 2, 3, 1]))
+import json
+open("f.txt", "w").write("Hi")

@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 
 def format_date(d: date) -> str:
-    date.strftime(d, "%Y-%m-%d")
+    return date.strftime(d, "%Y-%m-%d")
 
 
 def stringigy_tamble(tasks: list[Tasks]) -> str:
